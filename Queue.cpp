@@ -8,7 +8,7 @@ public:
     int front, rear;
     int qu[5];
 
-    queue() : MAX_SIZE(5)
+    queue() 
     {
         front = -1;
         rear = -1;
@@ -39,7 +39,7 @@ public:
 
     void dequeue()
     {
-        if (front == -1 || front > rear)
+        if (front == -1)
         {
             cout << "\nQueue is empty";
         }
