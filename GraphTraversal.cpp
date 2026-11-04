@@ -1,146 +1,81 @@
-
 #include <iostream>
 using namespace std;
 
-class graph_traversal
-{
+class graph_traversal {
 public:
     int n, adj_m[6][6], visited[6];
 
-    void input()
-    {
-        int i, j;
-
-        cout << "Enter the no. of vertices for the graph (1-5): ";
+    void input() {
+        cout << "Enter number of vertices (1-5): ";
         cin >> n;
 
-        if (n < 1 || n > 5)
-        {
-            cout << "Invalid number of vertices.";
-            n = 0;
-            return;
-        }
-
-        cout << "Create the graph using adjacency matrix:\n";
-
-        for (i = 1; i <= n; i++)
-        {
-            for (j = 1; j <= n; j++)
-            {
+        cout << "Enter adjacency matrix:\n";
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= n; j++)
                 cin >> adj_m[i][j];
-            }
-        }
     }
 
-    void dfs()
-    {
-        if (n == 0)
-            return;
+    void dfs() {
+        if (n == 0) return;
 
-        int stack[6], top = -1, position, i, start;
+        int stack[6], top = -1, start, pos;
 
-        cout << "Enter the starting position for DFS: ";
+        cout << "Enter starting position for DFS (1-n): ";
         cin >> start;
 
-        if (start < 1 || start > n)
-        {
-            cout << "Invalid starting position.\n";
-            return;
-        }
-
-        for (i = 1; i <= n; i++)
-        {
+        for (int i = 1; i <= n; i++)
             visited[i] = 0;
-        }
 
-        top++;
-        stack[top] = start;
-
+        stack[++top] = start;
         cout << "DFS Traversal: ";
 
-        while (top != -1)
-        {
-            position = stack[top];
-            top--;
+        while (top != -1) {
+            pos = stack[top--];
 
-            if (visited[position] == 0)
-            {
-                cout << position << "\t";
-                visited[position] = 1;
+            if (!visited[pos]) {
+                cout << pos << "\t";
+                visited[pos] = 1;
 
-                for (i = n; i >= 1; i--)
-                {
-                    if (adj_m[position][i] == 1 &&
-                        visited[i] == 0)
-                    {
-                        top++;
-                        stack[top] = i;
-                    }
-                }
+                for (int i = n; i >= 1; i--)
+                    if (adj_m[pos][i] == 1 && !visited[i])
+                        stack[++top] = i;
             }
         }
-        cout << endl;
     }
 
-    void bfs()
-    {
-        if (n == 0)
-            return;
+    void bfs() {
+        if (n == 0) return;
 
-        int queue[6], front = -1, rear = -1;
-        int position, i, start;
+        int queue[6], front = 0, rear = 0, start, pos;
 
-        cout << "Enter the starting position for BFS: ";
+        cout << "Enter starting position for BFS (1-n): ";
         cin >> start;
 
-        if (start < 1 || start > n)
-        {
-            cout << "Invalid starting position.\n";
-            return;
-        }
-
-        for (i = 1; i <= n; i++)
-        {
+        for (int i = 1; i <= n; i++)
             visited[i] = 0;
-        }
 
-        rear++;
-        queue[rear] = start;
-        front = 0;
-
+        queue[rear++] = start;
         visited[start] = 1;
 
         cout << "BFS Traversal: ";
 
-        while (front <= rear)
-        {
-            position = queue[front];
-            front++;
+        while (front < rear) {
+            pos = queue[front++];
+            cout << pos << "\t";
 
-            cout << position << "\t";
-
-            for (i = 1; i <= n; i++)
-            {
-                if (adj_m[position][i] == 1 &&
-                    visited[i] == 0)
-                {
-                    rear++;
-                    queue[rear] = i;
+            for (int i = 1; i <= n; i++)
+                if (adj_m[pos][i] == 1 && !visited[i]) {
+                    queue[rear++] = i;
                     visited[i] = 1;
                 }
-            }
         }
-        cout << endl;
     }
 };
 
-int main()
-{
+int main() {
     graph_traversal gt;
-
     gt.input();
     gt.dfs();
     gt.bfs();
-
     return 0;
 }
