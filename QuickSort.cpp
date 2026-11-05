@@ -1,61 +1,86 @@
-
 #include <iostream>
 using namespace std;
 
-class quicksort {
+class quicksort
+{
 public:
-    int conquer(int a[], int low, int high) {
-        int pivot = a[high], i = low, temp;
+void divide(int elements[], int low, int high)
+{
+int pivot_position;
 
-        for (int j = low; j < high; j++) {
-            if (a[j] <= pivot) {
-                temp = a[i];
-                a[i] = a[j];
-                a[j] = temp;
-                i++;
-            }
-        }
+if (low < high)  
+    {  
+        pivot_position = conqure(elements, low, high);  
 
-        temp = a[i];
-        a[i] = a[high];
-        a[high] = temp;
+        divide(elements, low, pivot_position - 1);  
+        divide(elements, pivot_position + 1, high);  
+    }  
+}  
 
-        return i;
-    }
+int conqure(int elements[], int low, int high)  
+{  
+    int pivot, i, j, temp;  
 
-    void divide(int a[], int low, int high) {
-        if (low < high) {
-            int p = conquer(a, low, high);
-            divide(a, low, p - 1);
-            divide(a, p + 1, high);
-        }
-    }
+    pivot = elements[high];  
+    i = low;  
 
-    void display(int a[], int n) {
-        cout << "Sorted elements are: ";
-        for (int i = 0; i < n; i++)
-            cout << a[i] << "\t";
-    }
+    for (j = low; j < high; j++)  
+    {  
+        if (elements[j] <= pivot)  
+        {  
+            temp = elements[i];  
+            elements[i] = elements[j];  
+            elements[j] = temp;  
+
+            i++;  
+        }  
+    }  
+
+    temp = elements[i];  
+    elements[i] = elements[high];  
+    elements[high] = temp;  
+
+    return i;  
+}  
+
+void display(int elements[], int low, int high)  
+{  
+    int i;  
+
+    cout << "Sorted elements are: ";  
+
+    for (i = low; i <= high; i++)  
+    {  
+        cout << elements[i] << "\t";  
+    }  
+}
+
 };
 
-int main() {
-    int a[20], n;
-    quicksort qs;
+int main()
+{
+int elements[20], n, i;
+quicksort qs;
 
-    cout << "Enter number of elements: ";
-    cin >> n;
+cout << "Enter the number of elements: ";  
+cin >> n;  
 
-    if (n < 1 || n > 20) {
-        cout << "Enter a number between 1 and 20.";
-        return 0;
-    }
+if (n < 1 || n > 20)  
+{  
+    cout << "Enter a number between 1 and 20.";  
+    return 0;  
+}  
 
-    cout << "Enter elements: ";
-    for (int i = 0; i < n; i++)
-        cin >> a[i];
+cout << "Enter the elements: ";  
 
-    qs.divide(a, 0, n - 1);
-    qs.display(a, n);
+for (i = 0; i < n; i++)  
+{  
+    cin >> elements[i];  
+}  
 
-    return 0;
+qs.divide(elements, 0, n - 1);  
+qs.display(elements, 0, n - 1);  
+
+return 0;
+
 }
